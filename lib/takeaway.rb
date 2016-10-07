@@ -1,5 +1,5 @@
 
-$dishes = [
+@dishes = [
   {name: "Cheese & Tomato", price:  14.99},
   {name: "Mighty Meaty", price:  14.99},
   {name: "Pepperoni Passion", price:  16.99},
@@ -11,13 +11,13 @@ $dishes = [
   {name: "Meateor", price:  18.99},
 ]
 
-current_order = []
+@current_order = []
 
 
 def interactive_menu
   loop do
     print_menu
-    methods(STDIN.gets.chomp)
+    methods(gets.chomp)
   end
 end
 
@@ -30,13 +30,15 @@ end
 
 def methods(selection)
   case (selection)
-    when 1
+    when "1"
       view_menu
-    when 2
-      puts select_order
-    when 3
-      puts current_order
-    when 9
+    when "2"
+      select_order
+    when "3"
+      puts "Current order:"
+      puts @current_order
+      puts
+    when "9"
       puts "Thank you, goodbye"
       exit
     else
@@ -47,23 +49,33 @@ end
 def view_menu
   count = 0
   puts "Today's menu"
-  $dishes.each do |pizza|
+  @dishes.each do |pizza|
     count += 1
     puts("#{count}. #{pizza[:name]} - #{pizza[:price]}")
   end
+  puts
 end
 
 def select_order
   puts "Please choose your order"
-  puts "Select 0 to view menu"
+  puts "Select 0 to end"
   puts "Select pizza by number"
   puts "Type 'Done' to finish"
-
-  case
+  selection = gets.chomp
+  order(selection)
 end
 
 def order(selection)
-  current_order << dishes[selection-1]
+  case
+    when "0"
+      return
+    when selection.to_i < 10
+      food = @dishes[selection.to_i-1]
+      @current_order << food
+    else
+      puts "Else"
+      order(STDIN.gets.chomp)
+    end
 end
 
 interactive_menu
