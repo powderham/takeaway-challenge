@@ -36,7 +36,7 @@ def methods(selection)
       select_order
     when "3"
       puts "Current order:"
-      puts @current_order
+      print_current_order
       puts
     when "9"
       puts "Thank you, goodbye"
@@ -58,49 +58,68 @@ end
 
 def select_order
   puts "Please choose your order"
-  puts "Select 0 to end"
+  puts "Select 0 to view menu"
   puts "Select pizza by number"
-  puts "Type 'Done' to finish"
+  puts "Type anything else to return to menu"
   order(gets.chomp)
 end
 
 def order(selection)
-  puts "You have chosen #{selection}"
+  puts "Your selection: #{@dishes[selection.to_i-1][:name]}"
+  puts "Select another pizza by its number (0 to view menu)"
+  puts "Type anything else to return to menu"
 
   case selection
     when "0"
-      return
+      view_menu
     when "1"
       food = @dishes[selection.to_i-1]
       @current_order << food
+      order(gets.chomp)
     when "2"
       food = @dishes[selection.to_i-1]
       @current_order << food
+      order(gets.chomp)
     when "3"
       food = @dishes[selection.to_i-1]
       @current_order << food
+      order(gets.chomp)
     when "4"
       food = @dishes[selection.to_i-1]
       @current_order << food
+      order(gets.chomp)
     when "5"
       food = @dishes[selection.to_i-1]
       @current_order << food
+      order(gets.chomp)
     when "6"
       food = @dishes[selection.to_i-1]
       @current_order << food
+      order(gets.chomp)
     when "7"
       food = @dishes[selection.to_i-1]
       @current_order << food
+      order(gets.chomp)
     when "8"
       food = @dishes[selection.to_i-1]
       @current_order << food
+      order(gets.chomp)
     when "9"
       food = @dishes[selection.to_i-1]
       @current_order << food
+      order(gets.chomp)
     else
-      puts "Else"
-      order(STDIN.gets.chomp)
+      puts "Returning to menu"
+      order(gets.chomp)
     end
+end
+
+def print_current_order
+  output = Hash.new 0
+  @current_order.each do |order|
+    output[order] += 1
+  end
+  print output
 end
 
 interactive_menu
