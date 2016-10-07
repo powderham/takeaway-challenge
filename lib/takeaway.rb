@@ -61,15 +61,40 @@ def select_order
   puts "Select 0 to end"
   puts "Select pizza by number"
   puts "Type 'Done' to finish"
-  selection = gets.chomp
-  order(selection)
+  order(gets.chomp)
 end
 
 def order(selection)
-  case
+  puts "You have chosen #{selection}"
+
+  case selection
     when "0"
       return
-    when selection.to_i < 10
+    when "1"
+      food = @dishes[selection.to_i-1]
+      @current_order << food
+    when "2"
+      food = @dishes[selection.to_i-1]
+      @current_order << food
+    when "3"
+      food = @dishes[selection.to_i-1]
+      @current_order << food
+    when "4"
+      food = @dishes[selection.to_i-1]
+      @current_order << food
+    when "5"
+      food = @dishes[selection.to_i-1]
+      @current_order << food
+    when "6"
+      food = @dishes[selection.to_i-1]
+      @current_order << food
+    when "7"
+      food = @dishes[selection.to_i-1]
+      @current_order << food
+    when "8"
+      food = @dishes[selection.to_i-1]
+      @current_order << food
+    when "9"
       food = @dishes[selection.to_i-1]
       @current_order << food
     else
