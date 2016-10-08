@@ -34,12 +34,21 @@ describe Takeaway do
   end
 
   context "#verify_order" do
-    it "Verify order " do
-      number = rand(takeaway.dishes.length)
-      takeaway.select_order(number)
-      expect(takeaway.verify_order).to eq takeaway.dishes[number-1][:price]
+    before(:each) do
+      @total = 0
+      rand(5).times do
+        number = rand(takeaway.dishes.length)
+        takeaway.select_order(number)
+        @total += takeaway.dishes[number-1][:price]
+      end
     end
 
+    it "Verify order should return a total price" do
+      expect(takeaway.calculate_total).to eq @total
+    end
 
+    it "Current order printer should contain ordered pizzas" do
+      expect(takeaway.print_current_order).to eq takeaway.current_order.map{|x| "#{x[:name]} #{x[:price]}"}
+    end
   end
 end

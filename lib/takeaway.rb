@@ -1,6 +1,6 @@
 class Takeaway
 
-  attr_reader :dishes, :current_order
+  attr_reader :dishes, :current_order, :print_current_order
 
   def initialize
     @dishes = [
@@ -16,23 +16,6 @@ class Takeaway
     ]
     @current_order = []
   end
-
-
-
-  def interactive_menu
-    loop do
-      print_menu
-      methods(gets.chomp)
-    end
-  end
-
-  def print_menu
-    puts "1. Show menu"
-    puts "2. Choose food"
-    puts "3. Show order"
-    puts "9. Exit"
-  end
-
 
   def view_menu
     count = 0
@@ -50,13 +33,40 @@ class Takeaway
   end
 
   def verify_order
+    puts
+    puts "Current order:"
+    puts print_current_order
+    puts
+    puts "Total:"
+    puts calculate_total
+  end
+
+  def calculate_total
     total = 0
     @current_order.each do |pizza|
-      puts pizza
       total += pizza[:price]
     end
     total
   end
+
+  def print_current_order
+    @current_order.map{|x| "#{x[:name]} #{x[:price]}"}
+  end
+  
+  # def interactive_menu
+  #   loop do
+  #     print_menu
+  #     methods(gets.chomp)
+  #   end
+  # end
+  #
+  # def print_menu
+  #   puts "1. Show menu"
+  #   puts "2. Choose food"
+  #   puts "3. Show order"
+  #   puts "9. Exit"
+  # end
+
   # def methods(selection)
   #   case (selection)
   #     when "1"
@@ -133,12 +143,5 @@ class Takeaway
   #     end
   # end
 
-  # def print_current_order
-  #   # output = Hash.new 0
-  #   # @current_order.each do |order|
-  #   #   output[order] += 1
-  #   # end
-  #   print @current_order.map{|x| x[:price]}
-  # end
 
 end
