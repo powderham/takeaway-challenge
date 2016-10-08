@@ -18,11 +18,28 @@ describe Takeaway do
   end
 
   context "#view_menu" do
-
+    printing_fluff = 2
     it "Menu can be printed" do
-      {takeaway.dishes.length + 2}.times do expect(STDOUT).to receive(:puts) end
+      (takeaway.dishes.length + printing_fluff).times do expect(STDOUT).to receive(:puts) end
       takeaway.view_menu
     end
+  end
+
+  context "#select_order" do
+      it "Selected dishes move to current_order" do
+        number = rand(takeaway.dishes.length)
+        takeaway.select_order(number)
+        expect(takeaway.current_order.last).to eq takeaway.dishes[number-1]
+      end
+  end
+
+  context "#verify_order" do
+    it "Verify order " do
+      number = rand(takeaway.dishes.length)
+      takeaway.select_order(number)
+      expect(takeaway.verify_order).to eq takeaway.dishes[number-1][:price]
+    end
+
 
   end
 end
