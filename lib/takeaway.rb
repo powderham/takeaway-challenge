@@ -1,6 +1,8 @@
+require 'twilio-ruby'
 class Takeaway
 
-  attr_reader :dishes, :current_order, :print_current_order
+  attr_reader :dishes, :current_order, :print_current_order,:client
+
 
   def initialize
     @dishes = [
@@ -14,8 +16,12 @@ class Takeaway
       {name: "Hawaiian", price:  18.99},
       {name: "Meateor", price:  18.99},
     ]
-    @current_order = []
+    account_sid = 'AC2dcc305129bcd9a5749f74ac4a0e99c9'
+    auth_token = 'b0d1d4b38109dedb04f2cd829fd3e043'
+    @current_order = Order.new
+    @client = Twilio::REST::Client.new account_sid, auth_token
   end
+
 
   def view_menu
     count = 0
@@ -27,9 +33,9 @@ class Takeaway
     puts
   end
 
-  def select_order(order)
+  def select_order(order, quantity)
     dish = dishes[order-1]
-    @current_order << dish
+    @current_order.current_order << [dish,quantity]
   end
 
   def verify_order
@@ -42,17 +48,17 @@ class Takeaway
   end
 
   def calculate_total
-    total = 0
-    @current_order.each do |pizza|
-      total += pizza[:price]
-    end
-    total
+    current_order.total
   end
 
   def print_current_order
-    @current_order.map{|x| "#{x[:name]} #{x[:price]}"}
+    @current_order.print_current_order
   end
-  
+
+  def text_order
+    client.messages.create(from: '441582380423', to: '447713476196', body:"#{print_current_order}" )
+  end
+
   # def interactive_menu
   #   loop do
   #     print_menu
