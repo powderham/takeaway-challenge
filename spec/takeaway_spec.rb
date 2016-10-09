@@ -29,7 +29,7 @@ describe Takeaway do
       it "Selected dishes move to current_order" do
         dish = rand(takeaway.dishes.length)
         quantity = rand(1..4)
-        takeaway.select_order(dish,quantity)
+        takeaway.order_dish(dish,quantity)
         expect(takeaway.current_order.current_order.last).to eq [takeaway.dishes[dish-1],quantity]
       end
   end
@@ -40,24 +40,21 @@ describe Takeaway do
       rand(1..5).times do
         dish = rand(takeaway.dishes.length)
         quantity = rand(1..4)
-        takeaway.select_order(dish, quantity)
+        takeaway.order_dish(dish, quantity)
         @total += takeaway.dishes[dish-1][:price]*quantity
       end
     end
 
     it "Puts" do
+      allow(takeaway).to receive_messages(text_order: true)
       puts takeaway.current_order
       puts takeaway.print_current_order
       puts
-      puts takeaway.verify_order
-    end
-
-    it "Verify order should return a total price" do
-      expect(takeaway.calculate_total).to eq @total
+      puts takeaway.confirm_order(@total)
     end
 
     it "Current order printer should contain ordered pizzas" do
-      expect(takeaway.print_current_order).to eq takeaway.current_order.current_order.map{|x| "#{x[0][:name]} Quantity: #{x[1]}"}
+      expect(takeaway.print_current_order).to eq takeaway.current_order.current_order.map{|x| "#{x[0][:name]}. Quantity: #{x[1]}"}
     end
   end
 end

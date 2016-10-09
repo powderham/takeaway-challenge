@@ -8,6 +8,7 @@ class Order
 
   def select_order(item, quantity)
     @current_order << [item,quantity]
+    "Current total: #{total}"
   end
 
   def total
@@ -19,7 +20,7 @@ class Order
   end
 
   def print_current_order
-    current_order.map{|x| "#{x[0][:name]} Quantity: #{x[1]}"}
+    current_order.map{|x| "#{x[0][:name]}. Quantity: #{x[1]}"}
   end
 
 end

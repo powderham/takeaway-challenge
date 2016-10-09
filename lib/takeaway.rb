@@ -33,39 +33,33 @@ class Takeaway
     puts
   end
 
-  def select_order(order, quantity)
-    dish = dishes[order-1]
-    @current_order.current_order << [dish,quantity]
+  def order_dish(dish, quantity)
+    @current_order.current_order << [dishes[dish-1],quantity]
   end
 
-  def verify_order
-    puts
-    puts "Current order:"
-    puts print_current_order
-    puts
-    puts "Total:"
-    puts calculate_total
-    puts
-    puts "Confirm order by typing total price"
-    wrong_total? ? text_order : "Order total not verified"
-  end
-
-  def calculate_total
-    current_order.total
+  def confirm_order(total)
+    wrong_total?(total) ? text_order("#{print_current_order} arriving by #{Time.new.hour+1}:#{Time.new.min}") : not_verified_message
   end
 
   def print_current_order
     @current_order.print_current_order
   end
 
-
   private
-  def wrong_total?
-    gets.chomp.to_f == calculate_total
+  def not_verified_message
+    "Order total not verified"
   end
-  
-  def text_order
-    client.messages.create(from: '441582380423', to: '447713476196', body:"#{print_current_order} arriving by #{Time.new.hour+1}:#{Time.new.min}" )
+
+  def calculate_total
+    current_order.total
+  end
+
+  def wrong_total?(total)
+    total == calculate_total
+  end
+
+  def text_order(body)
+    client.messages.create(from: '441582380423', to: '447713476196', body:body )
   end
 
   # def interactive_menu

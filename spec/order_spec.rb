@@ -15,7 +15,7 @@ describe Order do
 
     it "Current order printer should contain ordered pizzas" do
       order.select_order(pizza, 2)
-      expect(order.print_current_order).to eq order.current_order.map{|x| "#{x[0][:name]} Quantity: #{x[1]}"}
+      expect(order.print_current_order).to eq order.current_order.map{|x| "#{x[0][:name]}. Quantity: #{x[1]}"}
     end
   end
 end
