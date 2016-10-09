@@ -45,6 +45,9 @@ class Takeaway
     puts
     puts "Total:"
     puts calculate_total
+    puts
+    puts "Confirm order by typing total price"
+    wrong_total? ? text_order : "Order total not verified"
   end
 
   def calculate_total
@@ -55,8 +58,14 @@ class Takeaway
     @current_order.print_current_order
   end
 
+
+  private
+  def wrong_total?
+    gets.chomp.to_f == calculate_total
+  end
+  
   def text_order
-    client.messages.create(from: '441582380423', to: '447713476196', body:"#{print_current_order}" )
+    client.messages.create(from: '441582380423', to: '447713476196', body:"#{print_current_order} arriving by #{Time.new.hour+1}:#{Time.new.min}" )
   end
 
   # def interactive_menu
